@@ -3,11 +3,13 @@ import './App.css';
 
 export const App = () => {
   const [choices, setChoices] = useState<string[]>([]);
-  const [prompts, setPrompts] = useState<any>('Hello, how are you doing?');
+  const [prompt, setPrompt] = useState<any>('Hello, how are you doing?');
+  const [promptArray, setPromptArray] = useState<string[]>([]);
   const ref = useRef<HTMLTextAreaElement>(null);
+
   useEffect(() => {
     const payload = {
-      prompt: `${prompts}`,
+      prompt: `${prompt}`,
       temperature: 0.5,
       max_tokens: 64,
       top_p: 1.0,
@@ -26,21 +28,23 @@ export const App = () => {
       .then((response) => response.json())
       .then((response) => setChoices([response.choices[0].text, ...choices]));
 
-    console.log(choices);
-  }, [prompts]);
+    setPromptArray([prompt, ...promptArray]);
+  }, [prompt]);
 
   const handleClick = () => {
-    setPrompts(ref.current?.value);
-    console.log(prompts);
+    setPrompt(ref.current?.value);
   };
 
+  console.log(typeof promptArray);
   return (
     <div className='App'>
       <textarea ref={ref} id='message' name='message' />
       <button type='submit' onClick={handleClick}>
         Submit
       </button>
-
+      {promptArray.map((prompt) => (
+        <p>{prompt}</p>
+      ))}
       {choices.map((choice) => (
         <p>{choice}</p>
       ))}
