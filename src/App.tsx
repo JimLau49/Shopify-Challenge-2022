@@ -1,10 +1,12 @@
 import { useEffect, useState, useRef } from 'react';
 import './App.css';
+import { ResponseTile } from './components/response-tile/response-tile';
 
 export const App = () => {
   const [choices, setChoices] = useState<string[]>([]);
   const [prompt, setPrompt] = useState<any>('Hello, how are you doing?');
   const [promptArray, setPromptArray] = useState<string[]>([]);
+
   const ref = useRef<HTMLTextAreaElement>(null);
 
   useEffect(() => {
@@ -35,19 +37,18 @@ export const App = () => {
     setPrompt(ref.current?.value);
   };
 
-  console.log(typeof promptArray);
+  const responseTiles = promptArray.map((value, index) => {
+    const response = choices[index];
+    return <ResponseTile prompt={value} response={response} />;
+  });
+
   return (
     <div className='App'>
       <textarea ref={ref} id='message' name='message' />
       <button type='submit' onClick={handleClick}>
         Submit
       </button>
-      {promptArray.map((prompt) => (
-        <p>{prompt}</p>
-      ))}
-      {choices.map((choice) => (
-        <p>{choice}</p>
-      ))}
+      {responseTiles}
     </div>
   );
 };
