@@ -7,6 +7,8 @@ export const App = () => {
   const [prompt, setPrompt] = useState<any>('Hello, how are you doing?');
   const [promptArray, setPromptArray] = useState<string[]>([]);
   const [message, setMessage] = useState<string>('');
+  const [engine, setEngine] = useState<string>('text-curie-001');
+  const [engineHistory, setEngineHistory] = useState<string[]>([]);
 
   const ref = useRef<HTMLTextAreaElement>(null);
 
@@ -20,7 +22,7 @@ export const App = () => {
       presence_penalty: 0.0,
     };
 
-    fetch('https://api.openai.com/v1/engines/text-curie-001/completions', {
+    fetch(`https://api.openai.com/v1/engines/${engine}/completions`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -32,6 +34,7 @@ export const App = () => {
       .then((response) => setChoices([response.choices[0].text, ...choices]));
 
     setPromptArray([prompt, ...promptArray]);
+    setEngineHistory([engine, ...engineHistory]);
   }, [prompt]);
 
   const handleClick = () => {
@@ -39,9 +42,21 @@ export const App = () => {
     setMessage('');
   };
 
+  const handleDropdownChange = (event: React.ChangeEvent<any>) => {
+    setEngine(event.target.value);
+  };
+
   const responseTiles = promptArray.map((value, index) => {
     const response = choices[index];
-    return <ResponseTile prompt={value} response={response} />;
+    const engine = engineHistory[index];
+    return (
+      <ResponseTile
+        key={index}
+        engine={engine}
+        prompt={value}
+        response={response}
+      />
+    );
   });
 
   const handleMessageChange = (event: React.ChangeEvent<any>) => {
@@ -64,6 +79,12 @@ export const App = () => {
         />
       </div>
       <div className='button-container'>
+        <select value={engine} onChange={handleDropdownChange}>
+          <option value='text-curie-001'>text-curie-001</option>
+          <option value='text-davinci-002'>text-davinci-002</option>
+          <option value='text-babbage-001'>text-babbage-001</option>
+          <option value='text-ada-001'>text-ada-001</option>
+        </select>
         <button className='button' type='submit' onClick={handleClick}>
           Submit
         </button>
