@@ -1,11 +1,12 @@
 import { useEffect, useState, useRef } from 'react';
-import './App.css';
+import './App.scss';
 import { ResponseTile } from './components/response-tile/response-tile';
 
 export const App = () => {
   const [choices, setChoices] = useState<string[]>([]);
   const [prompt, setPrompt] = useState<any>('Hello, how are you doing?');
   const [promptArray, setPromptArray] = useState<string[]>([]);
+  const [message, setMessage] = useState<string>('');
 
   const ref = useRef<HTMLTextAreaElement>(null);
 
@@ -35,6 +36,7 @@ export const App = () => {
 
   const handleClick = () => {
     setPrompt(ref.current?.value);
+    setMessage('');
   };
 
   const responseTiles = promptArray.map((value, index) => {
@@ -42,12 +44,31 @@ export const App = () => {
     return <ResponseTile prompt={value} response={response} />;
   });
 
+  const handleMessageChange = (event: React.ChangeEvent<any>) => {
+    setMessage(event.target.message);
+  };
+
   return (
-    <div className='App'>
-      <textarea ref={ref} id='message' name='message' />
-      <button type='submit' onClick={handleClick}>
-        Submit
-      </button>
+    <div className='app'>
+      <h1 className='title'>Fun With AI</h1>
+      <div>
+        {message}
+        <textarea
+          className='text-area__box'
+          placeholder='Write something here :)'
+          ref={ref}
+          value={message}
+          onChange={handleMessageChange}
+          rows={10}
+          cols={75}
+        />
+      </div>
+      <div className='button-container'>
+        <button className='button' type='submit' onClick={handleClick}>
+          Submit
+        </button>
+      </div>
+      <h1>Responses</h1>
       {responseTiles}
     </div>
   );
