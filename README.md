@@ -2,6 +2,8 @@
 
 Hello! this is my take on "Fun with AI" 
 
+[Deployed!](https://graceful-faun-7f6dd0.netlify.app/)
+
 # Quick start guide
 
 1. Clone the repo
