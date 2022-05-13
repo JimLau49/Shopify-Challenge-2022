@@ -1,5 +1,5 @@
 .app{
-
+  
     margin-left: 30%;
     margin-right:30%;
     @media (max-width: 900px) {
@@ -21,8 +21,6 @@
       }
 }
 
-
-/* CSS */
 .button {
   appearance: button;
   backface-visibility: hidden;
@@ -51,7 +49,7 @@
   touch-action: manipulation;
   width: 20%;
   @media (max-width: 900px) {
-    width: 30%;
+    width: 45%;
     margin-left: 5%;
     margin-right:5%;
   }
@@ -90,4 +88,9 @@
           }
     }
     
+}
+
+.select{
+  margin-right: 1.5rem;
+  margin-left: 0.5rem;
 }

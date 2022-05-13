@@ -26,7 +26,7 @@ export const App = () => {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        Authorization: `Bearer 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`,
+        Authorization: `Bearer ${process.env.REACT_APP_OPENAI_SECRET}`,
       },
       body: JSON.stringify(payload),
     })
@@ -65,12 +65,12 @@ export const App = () => {
 
   return (
     <div className='app'>
-      <h1 className='title'>Fun With AI</h1>
+      <h1 className='title'>Fun With AI 🧠</h1>
       <div>
         {message}
         <textarea
           className='text-area__box'
-          placeholder='Write something here :)'
+          placeholder='Something to complete (e.g: There was once a...)'
           ref={ref}
           value={message}
           onChange={handleMessageChange}
@@ -79,12 +79,19 @@ export const App = () => {
         />
       </div>
       <div className='button-container'>
-        <select value={engine} onChange={handleDropdownChange}>
-          <option value='text-curie-001'>text-curie-001</option>
-          <option value='text-davinci-002'>text-davinci-002</option>
-          <option value='text-babbage-001'>text-babbage-001</option>
-          <option value='text-ada-001'>text-ada-001</option>
-        </select>
+        <div className='engine-row'>
+          Select engine:
+          <select
+            className='select'
+            value={engine}
+            onChange={handleDropdownChange}
+          >
+            <option value='text-curie-001'>text-curie-001</option>
+            <option value='text-davinci-002'>text-davinci-002</option>
+            <option value='text-babbage-001'>text-babbage-001</option>
+            <option value='text-ada-001'>text-ada-001</option>
+          </select>
+        </div>
         <button className='button' type='submit' onClick={handleClick}>
           Submit
         </button>
